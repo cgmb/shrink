@@ -455,7 +455,7 @@ static void fill_pixel_stack(const cv::Mat& in,
 
 // input:  CV_8UC1
 // output: CV_8UC1
-cv::Mat shrink(cv::Mat in) {
+cv::Mat shrink_max(cv::Mat in) {
   const int rows = in.size().height;
   const int cols = in.size().width;
 

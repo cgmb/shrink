@@ -8,7 +8,7 @@
 namespace cv { class Mat; }
 
 namespace cgmb {
-  cv::Mat shrink(cv::Mat in);
+  cv::Mat shrink_max(cv::Mat in);
 }
 
 #endif /* SHRINK_H */

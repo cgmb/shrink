@@ -79,7 +79,7 @@ static size_t test_shrink() {
   };
   for (auto&& test : tests) {
     cv::Mat input = test.inputMat();
-    cv::Mat result = cgmb::shrink(input);
+    cv::Mat result = cgmb::shrink_max(input);
     cv::Mat expected_result = test.expectedMat();
     cv::Mat diff = result != expected_result;
     if (cv::countNonZero(diff)) {
