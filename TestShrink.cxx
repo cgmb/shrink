@@ -1,3 +1,7 @@
+/* Authored by Cordell Bloor
+   Copyright 2015
+   MIT Licensed
+*/
 #ifndef TEST_SHRINK_H
 #define TEST_SHRINK_H
 
