@@ -2,9 +2,6 @@
    Copyright 2015
    MIT Licensed
 */
-#ifndef TEST_SHRINK_H
-#define TEST_SHRINK_H
-
 #include <cassert>
 #include <string>
 #include <vector>
@@ -23,6 +20,10 @@ cv::Mat matFromVector(const std::vector<char>& in, size_t width) {
   return 255*cv::Mat(in.size()/width, width, CV_8U, (void*)in.data()).clone();
 }
 
+cv::Mat pretty(const cv::Mat& in) {
+  return in / 255;
+}
+
 struct test_shrink_t {
   std::string description;
   std::vector<char> input;
@@ -39,7 +40,7 @@ struct test_shrink_t {
   }
 };
 
-static size_t test_shrink() {
+static size_t test_shrink_max() {
   size_t failed = 0u;
   std::vector<test_shrink_t> tests = {
     { "null", {}, 0, {}, 0},
@@ -99,8 +100,8 @@ static size_t test_shrink() {
     cv::Mat diff = result != expected_result;
     if (cv::countNonZero(diff)) {
       std::cout << test.description
-        << "\nactual:\n " << result
-        << "\nexpected:\n " << expected_result
+        << "\nactual:\n " << pretty(result)
+        << "\nexpected:\n " << pretty(expected_result)
         << std::endl;
       ++failed;
     }
@@ -113,7 +114,5 @@ static size_t test_shrink() {
 }
 
 int main() {
-  return test::test_shrink();
+  return test::test_shrink_max();
 }
-
-#endif /* TEST_SHRINK_H */
