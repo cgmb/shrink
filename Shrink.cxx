@@ -271,7 +271,6 @@ static const unsigned char k_unconditional_patterns[][9] = {
  0,M,M,
  0,0,0},
 
-/* thin-only
 // L Cluster
 {0,0,M,
  0,M,M,
@@ -297,7 +296,6 @@ static const unsigned char k_unconditional_patterns[][9] = {
 {0,0,0,
  0,M,M,
  0,0,M},
-*/
 
 // offset
 {0,M,M,
