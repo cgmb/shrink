@@ -2,7 +2,12 @@
    Copyright 2015
    MIT Licensed
 */
+#include <algorithm>
 #include <cassert>
+#include <chrono>
+#include <cmath>
+#include <cstring>
+#include <random>
 #include <string>
 #include <vector>
 #include <iostream>
@@ -11,6 +16,9 @@
 #include "Shrink.h"
 
 namespace test {
+
+using std::chrono::steady_clock;
+using std::chrono::duration_cast;
 
 cv::Mat matFromVector(const std::vector<char>& in, size_t width) {
   if (in.empty()) {
@@ -111,8 +119,35 @@ static size_t test_shrink_max() {
   return failed;
 }
 
+void benchmark_shrink_max() {
+  const int seed = 438729;
+  std::mt19937 engine(seed);
+  std::uniform_int_distribution<char> distribution(0, 1);
+  auto rng = std::bind(distribution, engine);
+
+  std::vector<char> v(1e6);
+  std::generate(v.begin(), v.end(), rng);
+
+  std::vector<test_shrink_t> tests = {
+    { "benchmark 1", v, 1000, {}, 0},
+  };
+
+  for (auto&& test : tests) {
+    cv::Mat input = test.inputMat();
+    auto before = steady_clock::now();
+    cv::Mat result = cgmb::shrink_max(input);
+    auto after = steady_clock::now();
+    unsigned long ns = duration_cast<std::chrono::nanoseconds>(after - before).count();
+    std::cout << test.description << " (" << cv::countNonZero(result) << "): "
+      << ns / 1e9 << "s" << std::endl;
+  }
 }
 
-int main() {
+}
+
+int main(int argc, char** argv) {
+  if (argc == 2 && std::strcmp(argv[1], "--benchmark") == 0) {
+    test::benchmark_shrink_max();
+  }
   return test::test_shrink_max();
 }

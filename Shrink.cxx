@@ -484,12 +484,13 @@ cv::Mat shrink_max(cv::Mat in) {
     cv::Mat out = conditional.clone();
     for (int row = 0; row < rows; ++row) {
       for (int col = 0; col < cols; ++col) {
-        fill_pixel_stack(conditional, rows, cols, row, col, stack);
-
         // check for an unconditional match
         if(conditional.at<unsigned char>(row, col) == 0) {
           continue; // no need to bother if already 0
         }
+
+        fill_pixel_stack(conditional, rows, cols, row, col, stack);
+
         for (size_t i = 0; i < sizeof(k_unconditional_patterns)/9; ++i) {
           if (match(stack, &k_unconditional_patterns[i][0])) {
             out.at<unsigned char>(row, col) = 0;
